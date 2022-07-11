@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.keldeari</groupId>
+	<artifactId>bp-keeper</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Blood Pressure Keeper</name>
+	<description>Telegram bot for blood pressure logging</description>
+
+	<properties>
+		<org.projectlombok.version>1.18.24</org.projectlombok.version>
+		<org.telegram.version>5.5.0</org.telegram.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${org.projectlombok.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+	        <groupId>org.telegram</groupId>
+	        <artifactId>telegrambots</artifactId>
+	        <version>${org.telegram.version}</version>
+    	</dependency>
+    	<dependency>
+	        <groupId>org.telegram</groupId>
+	        <artifactId>telegrambotsextensions</artifactId>
+	        <version>${org.telegram.version}</version>
+    	</dependency>
+	</dependencies>
+</project>
