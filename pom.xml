@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.keldeari</groupId>
 	<artifactId>bp-keeper</artifactId>
@@ -11,10 +9,13 @@
 	<description>Telegram bot for blood pressure logging</description>
 
 	<properties>
-	    <maven.compiler.target>1.8</maven.compiler.target>
-	    <maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
 		<org.projectlombok.version>1.18.24</org.projectlombok.version>
 		<org.telegram.version>5.5.0</org.telegram.version>
+		<org.postgresql.version>42.2.16</org.postgresql.version>
+		<org.jooq.version>3.17.2</org.jooq.version>
+
 	</properties>
 
 	<dependencies>
@@ -24,34 +25,111 @@
 			<version>${org.projectlombok.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.1.1.Final</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq</artifactId>
+			<version>${org.jooq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-meta</artifactId>
+			<version>${org.jooq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-codegen</artifactId>
+			<version>${org.jooq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-meta-extensions-hibernate</artifactId>
+			<version>${org.jooq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${org.postgresql.version}</version>
+		</dependency>
+
 		<!-- Telegram bot API -->
 		<dependency>
-	        <groupId>org.telegram</groupId>
-	        <artifactId>telegrambots</artifactId>
-	        <version>${org.telegram.version}</version>
-    	</dependency>
-    	<dependency>
-	        <groupId>org.telegram</groupId>
-	        <artifactId>telegrambotsextensions</artifactId>
-	        <version>${org.telegram.version}</version>
-    	</dependency>
-    	
-    	<!-- Logging -->
-    	<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots</artifactId>
+			<version>${org.telegram.version}</version>
+		</dependency>
 		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>1.7.36</version>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambotsextensions</artifactId>
+			<version>${org.telegram.version}</version>
+		</dependency>
+
+		<!-- Logging -->
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.36</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-reload4j -->
 		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-reload4j</artifactId>
-		    <version>1.7.36</version>
-		    <scope>test</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-reload4j</artifactId>
+			<version>1.7.36</version>
+			<scope>test</scope>
 		</dependency>
-		
-    	
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<version>${org.jooq.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${org.postgresql.version}</version>
+					</dependency>
+				</dependencies>
+
+				<configuration>
+					<jdbc>
+						<driver>org.postgresql.Driver</driver>
+						<url>jdbc:postgresql://localhost:5432/bpk</url>
+						<user>postgres</user>
+						<password>postgres</password>
+					</jdbc>
+
+					<generator>
+						<name>org.jooq.codegen.DefaultGenerator</name>
+						<database>
+							<includes>.*</includes>
+							<excludes></excludes>
+							<inputSchema>public</inputSchema>
+						</database>
+						<target>
+							<packageName>org.keldeari.bpkeeper.codegen</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
