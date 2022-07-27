@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   postgres:
-  	container_name: postgres_container
+    container_name: postgres_container
     image: postgres:14.3
     command:
       - "postgres"
@@ -34,22 +34,19 @@ services:
       - "-c"
       - "pg_stat_statements.track=all"
     ports:
-      - 5432
+      - 5432:5432
     volumes:
+      - "./sql:/docker-entrypoint-initdb.d"
       -
         type: bind
-        source: /media/storage/projects/bpk-data
+        source: /media/storage/projects/storage/bpk-data
         target: /var/lib/postgresql/data
-      -
-        source: sql
-        target: docker-entrypoint-initdb.d
-     # - sql:/docker-entrypoint-initdb.d
     environment:
-	  POSTGRES_PASSWORD postgres
-	  POSTGRES_USER postgres
-	  POSTGRES_DB bpk
-	healthcheck:
-	  test: ["CMD-SHELL", "pg_isready -U postgres -d bpk"]
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: bpk
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bpk"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -63,10 +60,10 @@ services:
     networks:
       - postgres
   pgadmin:
-  	container_name: pgadmin_container
-  	image: dpage/pgadmin4:5:7
-  	environment:
-      #PGADMIN_DEFAULT_EMAIL: ""
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:5.7
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "max-kan@outlook.com"
       PGADMIN_DEFAULT_PASSWORD: "postgres"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     #volumes:
@@ -81,6 +78,8 @@ services:
           memory: 1G
     networks:
       - postgres
+    profiles:
+      - debug
   postgres_exporter:
     container_name: exporter_container
     image: prometheuscommunity/postgres-exporter:v0.10.0
@@ -101,7 +100,9 @@ services:
           memory: 500M
     networks:
       - postgres
-
+    profiles:
+      - debug
+    
 networks:
   postgres:
     driver: bridge
