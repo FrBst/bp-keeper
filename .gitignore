@@ -1,4 +1,4 @@
-.settings
-target
-.classpath
-.project
+backend/.settings
+backend/target
+backend/.classpath
+backend/.project
