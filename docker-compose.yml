@@ -36,7 +36,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - "./sql:/docker-entrypoint-initdb.d"
+      - "./database/sql:/docker-entrypoint-initdb.d"
       -
         type: bind
         source: /media/storage/projects/storage/bpk-data
@@ -102,6 +102,16 @@ services:
       - postgres
     profiles:
       - debug
+  backend:
+    container_name: bp-keeper-backend
+    image: maven:3.6.3-jdk-8
+    volumes:
+      - "./backend:."
+    command: mvn clean generate-sources
+    command: mvn package
+    command: java -jar bp-keeper-0.0.1-SNAPSHOT.jar
+    profiles:
+      - test
     
 networks:
   postgres:
