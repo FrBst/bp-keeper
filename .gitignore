@@ -2,3 +2,4 @@ backend/.settings
 backend/target
 backend/.classpath
 backend/.project
+.env
