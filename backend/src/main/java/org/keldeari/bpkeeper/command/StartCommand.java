@@ -12,8 +12,14 @@ public class StartCommand extends ServiceCommand {
 
 	@Override
 	public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-		sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), user,
-				"Contracts are signed with blood. I suggest that you add the first measurement right now.");
+		sendAnswer(
+			absSender, 
+			chat.getId(), 
+			this.getCommandIdentifier(), 
+			user,
+			"Contracts are signed with blood. I suggest that you add the first "
+			+ "measurement right now."
+		);
 	}
 
 }

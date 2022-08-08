@@ -1,1 +1,0 @@
-Main-Class:org.keldeari.bpkeeper.application.BPKeeperApplication

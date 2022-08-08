@@ -34,7 +34,7 @@ services:
       - "-c"
       - "pg_stat_statements.track=all"
     ports:
-      - 5432:5432
+      - ${BP_KEEPER_PORT}:5432
     volumes:
       - "./database/sql:/docker-entrypoint-initdb.d"
       -
@@ -108,6 +108,7 @@ services:
     environment:
       BP_KEEPER_NAME: ${BP_KEEPER_NAME}
       BP_KEEPER_TOKEN: ${BP_KEEPER_TOKEN}
+      BP_KEEPER_PORT: 5432
     depends_on:
       postgres:
         condition: service_healthy

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.jooq.CloseableDSLContext;
 import org.jooq.exception.DataAccessException;
-import org.keldeari.bpkeeper.application.BPKeeperApplication;
+import org.keldeari.bpkeeper.BPKeeperApplication;
 import org.keldeari.bpkeeper.codegen.tables.Measurements;
 import org.keldeari.bpkeeper.codegen.tables.records.MeasurementsRecord;
 import org.slf4j.Logger;
@@ -61,8 +61,8 @@ public class NonCommand {
 			}
 		}
 		
-		try (CloseableDSLContext context = BPKeeperApplication.createDslContext()) {
-			MeasurementsRecord mr = context.newRecord(Measurements.MEASUREMENTS);
+		try (CloseableDSLContext dsl = BPKeeperApplication.createDslContext()) {
+			MeasurementsRecord mr = dsl.newRecord(Measurements.MEASUREMENTS);
 			mr.setPressureSys(measures.get(0));
 			mr.setPressureDia(measures.get(1));
 			if (measures.size() >= 3) {

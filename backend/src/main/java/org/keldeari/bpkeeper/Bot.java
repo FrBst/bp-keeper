@@ -1,4 +1,4 @@
-package org.keldeari.bpkeeper.bot;
+package org.keldeari.bpkeeper;
 
 import org.keldeari.bpkeeper.command.NonCommand;
 import org.keldeari.bpkeeper.command.ServiceCommand;

@@ -2,7 +2,7 @@ cd database
 ./rerun.sh
 
 cd ..
-./wait-for-it.sh localhost:5432 --strict -- echo "Database ready"
+./wait-for-it.sh localhost:${BP_KEEPER_PORT} --strict -- echo "Database ready"
 
 cd backend
 #### Build Backend
